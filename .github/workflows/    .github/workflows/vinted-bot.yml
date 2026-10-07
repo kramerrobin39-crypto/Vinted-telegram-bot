@@ -19,6 +19,25 @@ jobs:
       - name: Abhängigkeiten installieren
         run: pip install -r requirements.txt
 
+      - name: Secrets testen
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          if [ -z "$TELEGRAM_BOT_TOKEN" ]; then
+            echo "TOKEN FEHLT"
+            exit 1
+          else
+            echo "TOKEN IST DA"
+          fi
+
+          if [ -z "$TELEGRAM_CHAT_ID" ]; then
+            echo "CHAT ID FEHLT"
+            exit 1
+          else
+            echo "CHAT ID IST DA"
+          fi
+
       - name: Bot starten
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
